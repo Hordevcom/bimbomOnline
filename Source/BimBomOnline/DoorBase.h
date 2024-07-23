@@ -23,8 +23,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool IsOpened = false;
+
+protected:
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 		UStaticMeshComponent* DoorMesh;
-	
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+		USceneComponent* SceneComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+		UStaticMeshComponent* DoorIndicator;
+
 };

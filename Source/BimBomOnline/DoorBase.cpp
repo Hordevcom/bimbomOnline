@@ -10,8 +10,14 @@ ADoorBase::ADoorBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
+	RootComponent = SceneComponent;
+
 	DoorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorMeshComponent"));
-	RootComponent = DoorMesh;
+	DoorMesh->SetupAttachment(SceneComponent);
+
+	DoorIndicator = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorIndicatorComponent"));
+	DoorIndicator->SetupAttachment(SceneComponent);
 
 }
 
@@ -19,7 +25,7 @@ ADoorBase::ADoorBase()
 void ADoorBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
