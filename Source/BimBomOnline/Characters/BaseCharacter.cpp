@@ -19,9 +19,9 @@ void ABaseCharacter::BeginPlay()
 	
 }
 
-void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-}
+//void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//}
 
 // Called every frame
 void ABaseCharacter::Tick(float DeltaTime)
