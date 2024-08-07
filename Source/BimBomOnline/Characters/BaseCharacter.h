@@ -12,13 +12,11 @@ class BIMBOMONLINE_API ABaseCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ABaseCharacter();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsAiming = false;

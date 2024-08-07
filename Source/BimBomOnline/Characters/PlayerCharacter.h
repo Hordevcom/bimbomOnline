@@ -11,6 +11,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class AWeaponBase;
 
 UCLASS(config = Game)
 class BIMBOMONLINE_API APlayerCharacter : public ABaseCharacter
@@ -37,6 +38,15 @@ class BIMBOMONLINE_API APlayerCharacter : public ABaseCharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		UInputAction* AimAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		UInputAction* AttackAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+		TSubclassOf<AWeaponBase> DefaultWeaponClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+		FName WeaponAttachSocketName;
 	
 public:
 	APlayerCharacter();
@@ -54,6 +64,9 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	/** Called for attack input */
+	void Attack(const FInputActionValue& Value);
+
 	void Aim(const FInputActionValue& Value);
 	void StopAim(const FInputActionValue& Value);
 
@@ -62,4 +75,9 @@ protected:
 	void BeginPlay();
 
 	virtual void Tick(float DeltaTime) override;
+	
+private:
+	void EquipDefaultWeapon();
+
+	TObjectPtr<AWeaponBase> EquippedWeapon;
 };

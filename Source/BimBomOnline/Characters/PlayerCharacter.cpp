@@ -11,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "WeaponBase.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -70,13 +71,23 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void APlayerCharacter::Attack(const FInputActionValue& Value)
+{
+	if (!EquippedWeapon)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::Attack: EquippedWeapon is not valid!"));
+		return;
+	}
+
+	EquippedWeapon->Attack();
+}
+
 void APlayerCharacter::Aim(const FInputActionValue& Value)
 {
 	IsAiming = true;
 	CameraBoom->TargetArmLength = 100.0f;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
-	GetCharacterMovement()->RotationRate = FRotator(0, 0, -1);
 }
 
 void APlayerCharacter::StopAim(const FInputActionValue& Value)
@@ -85,7 +96,6 @@ void APlayerCharacter::StopAim(const FInputActionValue& Value)
 	CameraBoom->TargetArmLength = 400.0f;
 	GetCharacterMovement()->bUseControllerDesiredRotation = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->RotationRate = FRotator(0, 0, 500);
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -99,12 +109,16 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &APlayerCharacter::Aim);
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopAim);
+
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Attack);
 	}
 }
 
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	EquipDefaultWeapon();
 
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 	if (PlayerController)
@@ -120,4 +134,16 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void APlayerCharacter::EquipDefaultWeapon()
+{
+	if (!DefaultWeaponClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("APlayerCharacter::EquipDefaultWeapon(): DefaultWeaponClass is not valid!"));
+		return;
+	}
+	EquippedWeapon = GetWorld()->SpawnActor<AWeaponBase>(DefaultWeaponClass, GetActorTransform());
+	EquippedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, WeaponAttachSocketName);
+	EquippedWeapon->OwnerCharacter = this;
 }
