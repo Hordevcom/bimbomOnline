@@ -18,7 +18,7 @@ void ARangeWeapon::ShootLineTrace()
 	FVector End = Start + GetActorRightVector() * 2000;
 	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1);
 	DrawDebugLine(GetWorld(), Start,	End,
-		FColor::Red, true, 0.3f, 0,1.f);
+		FColor::Red, false, 0.3f, 0,1.f);
 
 	PlayMuzzleEffect();
 

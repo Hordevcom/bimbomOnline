@@ -79,7 +79,8 @@ void APlayerCharacter::Attack(const FInputActionValue& Value)
 		return;
 	}
 
-	EquippedWeapon->Attack();
+	if (IsAiming)
+		EquippedWeapon->Attack();
 }
 
 void APlayerCharacter::Aim(const FInputActionValue& Value)
@@ -110,7 +111,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &APlayerCharacter::Aim);
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopAim);
 
-		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Attack);
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Started, this, &APlayerCharacter::Attack);
 	}
 }
 
