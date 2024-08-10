@@ -28,6 +28,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		TObjectPtr<USkeletalMeshComponent> Mesh;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
+		float WeaponRange = 1000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
+		float Spreading = 0.08f;
+
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 	float Damage = 5.f;
@@ -37,5 +44,7 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<UDamageType> DamageTypeClass;
+
+
 	
 };
