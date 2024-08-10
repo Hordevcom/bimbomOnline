@@ -12,13 +12,16 @@ void ARangeWeapon::ShootLineTrace()
 		UE_LOG(LogTemp, Warning, TEXT("ARangeWeapon: ShootStartSocket.IsNone()"));
 		return;
 	}
+	
+	
 
 	FHitResult HitResult;
 	FVector Start = Mesh->GetSocketLocation(ShootStartSocket);
-	FVector End = Start + GetActorRightVector() * 2000;
+	FVector End = Start + (GetActorRightVector() + FVector(0, FMath::RandRange(-0.08f, 0.08f),FMath::RandRange(-0.08f, 0.08f))) * 2000;
 	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1);
 	DrawDebugLine(GetWorld(), Start,	End,
 		FColor::Red, false, 0.3f, 0,1.f);
+
 
 	PlayMuzzleEffect();
 
