@@ -12,7 +12,12 @@ void ARangeWeapon::ShootLineTrace()
 		UE_LOG(LogTemp, Warning, TEXT("ARangeWeapon: ShootStartSocket.IsNone()"));
 		return;
 	}
-		
+	if (OwnerCharacter->GetVelocity().Length() == 0)
+		Spreading = 0.f;
+	else
+		Spreading = 0.08f;
+
+	FVector SpreadVector = FVector(0, FMath::RandRange(Spreading * -1.f, Spreading), FMath::RandRange(Spreading * -1.f, Spreading));
 	FHitResult HitResult;
 	FVector Start = Mesh->GetSocketLocation(ShootStartSocket);
 	FVector End = Start + (GetActorRightVector() + FVector(0, FMath::RandRange(Spreading * -1.f, Spreading), FMath::RandRange(Spreading * -1.f, Spreading))) * WeaponRange;

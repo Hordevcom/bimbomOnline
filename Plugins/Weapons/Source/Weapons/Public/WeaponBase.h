@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "WeaponBase.generated.h"
 
 UCLASS(Abstract, NotBlueprintable)
@@ -45,6 +46,6 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<UDamageType> DamageTypeClass;
 
-
 	
+
 };
